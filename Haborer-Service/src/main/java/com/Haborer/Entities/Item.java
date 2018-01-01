@@ -7,17 +7,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.bson.types.ObjectId;
-@XmlRootElement(name = "item") 
 public abstract class Item implements Serializable {
    private static final long serialVersionUID = 1L;
    private ObjectId itemId=new ObjectId();
-   @XmlElement 
    private String itemName;
-   @XmlElement 
    private String itemCategory;
-   @XmlElement 
    private Date dateAdded;
-   @XmlElement 
    private String squadron;
    
    	public Item() {
@@ -30,6 +25,14 @@ public abstract class Item implements Serializable {
 		this.itemCategory = itemCategory;
 		this.dateAdded = new Date();
 		this.squadron=squadron;
+	}
+
+	public String getSquadron() {
+		return squadron;
+	}
+
+	public void setSquadron(String squadron) {
+		this.squadron = squadron;
 	}
 
 	public ObjectId getItemId() {
@@ -69,6 +72,8 @@ public abstract class Item implements Serializable {
 		return "Item [itemId=" + itemId + ", itemName=" + itemName + ", itemCategory=" + itemCategory + ", dateAdded="
 				+ dateAdded + ", squadron=" + squadron + "]";
 	}
+
+
 
 
    
