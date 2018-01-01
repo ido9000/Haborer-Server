@@ -36,7 +36,8 @@
     	<groupId>org.mongodb</groupId>
     	<artifactId>mongo-java-driver</artifactId>
     	<version>3.6.1</version>
-	</dependency>
+	</dependency>	
+	
 	<dependency>
 		    <groupId>com.sun.activation</groupId>
 		    <artifactId>javax.activation</artifactId>
