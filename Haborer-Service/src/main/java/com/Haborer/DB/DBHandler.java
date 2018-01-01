@@ -1,31 +1,56 @@
+package DB;
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
-
+import DB.Utilities;
 import java.rmi.UnknownHostException;
 import java.util.List;
 import java.util.Set;
 
-public class Test {
-//MongoClient mc = new MongoClient(new MongoClientURI("mongodb://Borer:12Borer@ds043200.mlab.com:43200/borer"));
-//DB db = mc.getDatabase("Men");
-//    public MongoClient getMc() {
-//        return mc;
-//    }
-//
-//    public void setMc(MongoClient mc) {
-//        this.mc = mc;
-//    }
+public class DBHandler {
 
-    public static void main(String[] args) {
+private MongoClientURI connectionString = null;
+private MongoClient mongoClient = null;
+private MongoDatabase db = null;
+private DBCollection collection = null;
+public DBHandler()
+{
+    if (db == null) {
 
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://Borer:12Borer@ds043200.mlab.com:43200/borer"));
-//        Insert a new object
-        DB db=mongoClient.getDB("borer");
-        DBCollection collection=db.getCollection("Men");
-        DBObject nor= new BasicDBObject("name","b");
-//        collection.insert(nor);
-        collection.remove(nor);
-        mongoClient.close();
-
+        connectionString= new  MongoClientURI(ClientURI);
+        mongoClient = new MongoClient(connectionString);
+        db = mongoClient.getDatabase(DBName);
+        collection=db.getCollection(CollectionName);
     }
+}
+
+public void insertObject(DBObject obj) {
+    try {
+         collection.insertOne(obj);
+    }
+
+    catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+public void updateObject( DBObject oldObj,DBObject newObj) {
+    try{
+        DBObject updateObject = new DBObject();
+        updateObject.put("$set", newObj);
+        collection.update(oldObj, updateObject);
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+public void removeObj(DBObject obj) {
+    try {
+        collection.remove(obj);
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 }
