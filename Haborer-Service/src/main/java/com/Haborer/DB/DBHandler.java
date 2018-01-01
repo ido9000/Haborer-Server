@@ -12,19 +12,19 @@ private MongoClientURI connectionString = null;
 private MongoClient mongoClient = null;
 private MongoDatabase db = null;
 private DBCollection collection = null;
-public DBHandler()
-{
+public DBHandler() {
     if (db == null) {
 
-        connectionString= new  MongoClientURI(ClientURI);
+        connectionString= new  MongoClientURI(Utilities.ClientURI);
         mongoClient = new MongoClient(connectionString);
-        db = mongoClient.getDatabase(DBName);
+        db = mongoClient.getDatabase(Utilities.DBName);
         collection=db.getCollection(CollectionName);
     }
 }
 
-public void insertObject(DBObject obj) {
+public void insertObject(DBObject obj, String CollectionName) {
     try {
+         collection=db.getCollection(CollectionName);
          collection.insertOne(obj);
     }
 
@@ -33,8 +33,9 @@ public void insertObject(DBObject obj) {
     }
 }
 
-public void updateObject( DBObject oldObj,DBObject newObj) {
+public void updateObject( DBObject oldObj,DBObject newObj, String CollectionName) {
     try{
+        collection=db.getCollection(CollectionName);
         DBObject updateObject = new DBObject();
         updateObject.put("$set", newObj);
         collection.update(oldObj, updateObject);
@@ -44,8 +45,9 @@ public void updateObject( DBObject oldObj,DBObject newObj) {
     }
 }
 
-public void removeObj(DBObject obj) {
+public void removeObj(DBObject obj, String CollectionName) {
     try {
+        collection=db.getCollection(CollectionName);
         collection.remove(obj);
     }
     catch (Exception e) {

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d74fa8f-8cc5-45c7-b25e-43e42ce5a4f6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Haborer-Service/pom.xml" afterPath="$PROJECT_DIR$/Haborer-Service/pom.xml" />
       <change beforePath="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java" afterPath="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java" />
       <change beforePath="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java" afterPath="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java" />
     </list>
@@ -12,6 +11,18 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <expand />
+    <select />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -85,11 +96,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DBHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="13" column="39" lean-forward="false" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
+            <state relative-caret-position="289">
+              <caret line="17" column="66" lean-forward="false" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -97,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utilities.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Utilities.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            <state relative-caret-position="68">
+              <caret line="4" column="48" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -152,8 +163,8 @@
         <option value="$PROJECT_DIR$/Haborer-Service/.classpath" />
         <option value="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.tld" />
         <option value="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.fxml" />
-        <option value="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java" />
         <option value="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java" />
+        <option value="$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java" />
       </list>
     </option>
   </component>
@@ -315,7 +326,7 @@
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable" />
-    <property name="last_opened_file_path" value="D:/Program Files/Java/jdk1.8.0_101/jre/lib/ext/mongo-java-driver-3.6.1.jar!/" />
+    <property name="last_opened_file_path" value="D:/Program Files/Java/jdk1.8.0_101/jre/lib/ext/mongo-java-driver-3.6.1.jar" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -629,12 +640,12 @@
       <updated>1514714026799</updated>
       <workItem from="1514714028300" duration="10248000" />
       <workItem from="1514790081557" duration="313000" />
-      <workItem from="1514790430228" duration="7987000" />
+      <workItem from="1514790430228" duration="9079000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18548000" />
+    <option name="totallyTimeSpent" value="19640000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -995,21 +1006,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java">
+    <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="13" column="39" lean-forward="false" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="4" column="48" lean-forward="false" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/Utilities.java">
+    <entry file="file://$PROJECT_DIR$/Haborer-Service/src/main/java/com/Haborer/DB/DBHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
+        <state relative-caret-position="289">
+          <caret line="17" column="66" lean-forward="false" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
