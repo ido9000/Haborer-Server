@@ -10,7 +10,6 @@ import org.bson.types.ObjectId;
 @XmlRootElement(name = "item") 
 public abstract class Item implements Serializable {
    private static final long serialVersionUID = 1L;
-   @XmlElement
    private ObjectId itemId=new ObjectId();
    @XmlElement 
    private String itemName;
