@@ -7,24 +7,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
-@XmlRootElement(name = "request") 
 public class Request {
 
-	@XmlElement
 	private RequestStatus status;
 	@XmlElement
 	public String fromSquadron;
-	@XmlElement
 	public String toSquadron;
-	@XmlElement
 	public Date fDate;
-	@XmlElement
 	public Date tDate;
-	@XmlElement
 	public String comments;
-	@XmlElement
 	public Item item;
-	@XmlElement
 	public String requestRespond;
 	
 	public Request(RequestStatus status, String fromSquadron, String toSquadron, Date fDate, Date tDate,

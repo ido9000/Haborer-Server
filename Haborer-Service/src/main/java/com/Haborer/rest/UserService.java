@@ -1,4 +1,6 @@
 package com.Haborer.rest;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,14 +14,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.Haborer.Entities.CountItem;
+import com.Haborer.Entities.EntitiesJsonToObjectsParser;
 import com.Haborer.Entities.Item;
 import com.Haborer.Entities.ItemRequestsFactory;
-import com.Haborer.Entities.Request;  
+import com.Haborer.Entities.MakatItem;
+import com.Haborer.Entities.Request;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javassist.expr.NewArray;  
 
 @Path("/UserService") 
 public class UserService {  
-	SquadronDao squadronDao = new SquadronDao();  
-   
+	private SquadronDao squadronDao = new SquadronDao();  
+
    @GET
    @Path("/Squadron/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
@@ -47,39 +59,45 @@ public class UserService {
 	   return squadronDao.getAllSqadronNames();
    }
    
-   @PUT
+   @POST
    @Path("/Squadron/AddItem")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public<T extends Item> Response addItem(T item) {
-	   return squadronDao.addItem(item);
-	   
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response addItem(String itemJson) {
+	   return squadronDao.addItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));	   
    }
    
+   
+
    @PUT
    @Path("/Squadron/NewRequest")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public<T extends Item> Response addRequests(ItemRequestsFactory factory) {
-	   return squadronDao.addNewRequests(factory);
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response addRequests(String factoryJson) {
+	   return squadronDao.addNewRequests(EntitiesJsonToObjectsParser.getItemRequstsFactory(factoryJson));
 	   
    }
+
+
+
    @POST
    @Path("/Sqaudron/RequestRespond")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public Response updateRequest(Request request) {
-	   return squadronDao.updateRequest(request);
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response updateRequest(String requestJson) {
+	   return squadronDao.updateRequest(EntitiesJsonToObjectsParser.parseToRequest(requestJson));
 	   
    }
-   @DELETE
+
+
+@DELETE
    @Path("Squadron/DeleteItem")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public <T extends Item> Response deleteItem(T item) {
-	   return squadronDao.deleteItem(item);
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response deleteItem(String itemJson) {
+	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
    }
    @POST
    @Path("Squadron/UpdateItem")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public <T extends Item> Response updateItem(T item) {
-	   return squadronDao.updateItem(item);
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response updateItem(String itemJson) {
+	   return squadronDao.updateItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
    }
 
 }

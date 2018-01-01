@@ -10,7 +10,6 @@ public class CountItem extends Item {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@XmlElement 
 	private int itemCount;
 
 	public CountItem () {
