@@ -1,58 +1,61 @@
-package DB;
-import com.mongodb.*;
-import com.mongodb.client.MongoDatabase;
-import DB.Utilities;
+package com.Haborer.db;
+import db.Utilities;
 import java.rmi.UnknownHostException;
 import java.util.List;
 import java.util.Set;
+import org.bson.BSONObject;
+import org.bson.Document;
+import com.mongodb.*;
 
 public class DBHandler {
 
-private MongoClientURI connectionString = null;
-private MongoClient mongoClient = null;
-private MongoDatabase db = null;
-private DBCollection collection = null;
-public DBHandler() {
-    if (db == null) {
+// private static MongoClientURI connectionString = null;
+// private static MongoClient mongoClient = null;
+//private static MongoDatabase mdb = null;;
+private static MongoURI connectionString = null;
+private static Mongo mongoClient = null;
+private static DB mdb = null
 
-        connectionString= new  MongoClientURI(Utilities.ClientURI);
-        mongoClient = new MongoClient(connectionString);
-        db = mongoClient.getDatabase(Utilities.DBName);
-        collection=db.getCollection(CollectionName);
+public DBHandler() {
+    if (mdb == null) {
+        connectionString= new MongoURI(Utilities.ClientURI);
+        mongoClient = new Mongo(connectionString);
+        mdb = mongoClient.getDB(Utilities.DBName);
     }
 }
 
 public void insertObject(DBObject obj, String CollectionName) {
-    try {
-         collection=db.getCollection(CollectionName);
-         collection.insertOne(obj);
-    }
-
-    catch (Exception e) {
-        e.printStackTrace();
-    }
-}
-
-public void updateObject( DBObject oldObj,DBObject newObj, String CollectionName) {
     try{
-        collection=db.getCollection(CollectionName);
-        DBObject updateObject = new DBObject();
-        updateObject.put("$set", newObj);
-        collection.update(oldObj, updateObject);
-    }
+         DBCollection collection = mdb.getCollection(CollectionName);
+         collection.insert(obj);   
+        }
     catch (Exception e) {
         e.printStackTrace();
     }
 }
 
-public void removeObj(DBObject obj, String CollectionName) {
-    try {
-        collection=db.getCollection(CollectionName);
-        collection.remove(obj);
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-    }
-}
+// public void updateObject(Document oldObj ,Document newObj, String CollectionName) {
+//     try{   
+//         mdb.getCollection(CollectionName).updateOne(oldObj,{$set:newObj});
+//        }
+//    catch (Exception e) {
+//        e.printStackTrace();
+//    }
+// }
+    //     collection=mdb.getCollection(CollectionName);;tionName);;
+    //     collection=mdb.getCollection(CollectionName);    updateObject.put("$set", newObj);
+    //     collection.update(oldObj, updateObject);
+    // }
+    // catch (Exception e) {
+    //     e.printStackTrace();
+    // }
 
+// public void removeObj(Document obj, String CollectionName) {
+//     try{   
+//         mdb.getCollection(CollectionName).removeOne(obj);
+//        }
+//    catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//     }
 }
