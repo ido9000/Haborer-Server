@@ -26,6 +26,31 @@ public class MakatItem extends Item{
 		return "MakatItem [itemMakat=" + itemMakat + ", toString()=" + super.toString() + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((itemMakat == null) ? 0 : itemMakat.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MakatItem other = (MakatItem) obj;
+		if (itemMakat == null) {
+			if (other.itemMakat != null)
+				return false;
+		} else if (!itemMakat.equals(other.itemMakat))
+			return false;
+		return true;
+	}
+
 
 
 	

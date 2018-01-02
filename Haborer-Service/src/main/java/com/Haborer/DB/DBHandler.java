@@ -15,6 +15,7 @@ public abstract class DBHandler {
 	    if (mdb == null) {
 	        mongoClient = new MongoClient(mongoClientURI);
 	        mdb = mongoClient.getDB(Utilities.DBName);
+	        
 	    }
 	}
 	
@@ -59,8 +60,9 @@ public abstract class DBHandler {
 	public static DB getMdb() {
 		return mdb;
 	}
-
-	public static void setMdb(DB mdb) {
-		DBHandler.mdb = mdb;
+	public void closeConnection() {
+		mongoClient.close();
 	}
+
+
 }

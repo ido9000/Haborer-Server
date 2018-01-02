@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import com.Haborer.DB.HaborerDBHandler;
 import com.Haborer.Entities.CountItem;
 import com.Haborer.Entities.EntitiesJsonToObjectsParser;
+import com.Haborer.Entities.Item;
 import com.Haborer.Entities.MakatItem;
 import com.Haborer.Entities.Request;
 import com.Haborer.Entities.RequestStatus;
@@ -37,6 +40,7 @@ class integrationWithMongoTest {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
+		dbHandler.closeConnection();
 	}
 
 	@BeforeEach
@@ -63,7 +67,27 @@ class integrationWithMongoTest {
 		dbHandler.getCollection("Requests").drop();
 
 	}
-	
+	@Test
+	public void testGetSquadron() {
+		List<Item> squadronItems=new ArrayList<>();
+		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
+		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", MakatItem.class.getSimpleName())).count());
+		for(int i=0;i<10;i++) {
+			squadronItems.add(createCountItem("155"));
+			squadronItems.add(createMakatItem("155"));
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(squadronItems.get(i*2)), dbHandler.getCollName("155", CountItem.class.getSimpleName()));
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(squadronItems.get(i*2+1)), dbHandler.getCollName("155", MakatItem.class.getSimpleName()));
+
+		}
+		assertEquals(10, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
+		assertEquals(10, dbHandler.getCollection(dbHandler.getCollName("155", MakatItem.class.getSimpleName())).count());
+		List<? extends Item> squadronItemList=squaDao.getSquadron("155");
+		assertEquals(squadronItems.size(), squadronItemList.size());
+		for(int i=0;i<squadronItemList.size();i++) {
+			assertTrue(squadronItems.get(i).equals(squadronItemList.get(i)));
+		}
+			
+	}
 
 	@Test
 	void testGetAllSquadronsNames() {
@@ -79,7 +103,7 @@ class integrationWithMongoTest {
 		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
 		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", MakatItem.class.getSimpleName())).count());
 		CountItem countItem=createCountItem("155");
-		MakatItem makatItem=createMakayItem("155");
+		MakatItem makatItem=createMakatItem("155");
 		squaDao.addItem(countItem);
 		squaDao.addItem(makatItem);
 		assertEquals(1, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
@@ -88,7 +112,7 @@ class integrationWithMongoTest {
 		String makatId=makatItem.get_id();
 		DBObject dbObject=dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).findOne();
 		JSONObject object= new JSONObject(JSON.serialize(dbObject));
-		CountItem item=(CountItem) EntitiesJsonToObjectsParser.parseToItem(object.toString());
+		CountItem item=(CountItem) EntitiesJsonToObjectsParser.parseToItem(object.toString(),false);
 		assertEquals(countId, item.get_id());
 	}
 	@Test
@@ -96,7 +120,7 @@ class integrationWithMongoTest {
 		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
 		assertEquals(0, dbHandler.getCollection(dbHandler.getCollName("155", MakatItem.class.getSimpleName())).count());
 		CountItem countItem=createCountItem("155");
-		MakatItem makatItem=createMakayItem("155");
+		MakatItem makatItem=createMakatItem("155");
 		dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(countItem), dbHandler.getCollName("155", CountItem.class.getSimpleName()));
 		dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(makatItem), dbHandler.getCollName("155", MakatItem.class.getSimpleName()));
 		assertEquals(1, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
@@ -118,7 +142,7 @@ class integrationWithMongoTest {
 		assertEquals(1, dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).count());
 		DBObject dbObject=dbHandler.getCollection(dbHandler.getCollName("155", CountItem.class.getSimpleName())).findOne();
 		JSONObject object= new JSONObject(JSON.serialize(dbObject));
-		CountItem item=(CountItem) EntitiesJsonToObjectsParser.parseToItem(object.toString());
+		CountItem item=(CountItem) EntitiesJsonToObjectsParser.parseToItem(object.toString(),false);
 		assertEquals("categoryTest", item.getItemCategory());
 	}
 	@Test
@@ -135,16 +159,62 @@ class integrationWithMongoTest {
 		Request item=(Request) EntitiesJsonToObjectsParser.parseToRequest(object.toString());
 		assertEquals(RequestStatus.APPROVED, item.getStatus());
 	}
+	@Test
+	public void testGetSquadronRequestFrom() {
+		assertEquals(0, dbHandler.getCollection("Requests").count());
+		for(int i=0;i<20;i++) {
+			Request request=createNewRequest();
+			if(i%2==0) {
+				request.setFromSquadron("155");
+			}else {
+				request.setFromSquadron("156");
+
+			}
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(request),"Requests");
+
+		}
+		assertEquals(20, dbHandler.getCollection("Requests").count());
+		List<Request> requests=squaDao.getSquadronRequestsFrom("155");
+		assertEquals(10, requests.size());
+		for(Request request:requests) {
+			assertEquals("155", request.getFromSquadron());
+		}
+
+
+	}
 	
+	@Test
+	public void testGetSquadronRequestTo() {
+		assertEquals(0, dbHandler.getCollection("Requests").count());
+		for(int i=0;i<20;i++) {
+			Request request=createNewRequest();
+			if(i%2==0) {
+				request.setToSquadron("155");
+			}else {
+				request.setToSquadron("156");
+
+			}
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(request),"Requests");
+
+		}
+		assertEquals(20, dbHandler.getCollection("Requests").count());
+		List<Request> requests=squaDao.getSquadronRequestsTo("155");
+		assertEquals(10, requests.size());
+		for(Request request:requests) {
+			assertEquals("155", request.getToSquadron());
+		}
+
+
+	}
 	
 	public CountItem createCountItem(String squadron) {
 		CountItem item=new CountItem();
-		item.setSquadron("155");
+		item.setSquadron(squadron);
 		return item;
 	}
-	public MakatItem createMakayItem(String squadron) {
+	public MakatItem createMakatItem(String squadron) {
 		MakatItem item=new MakatItem();
-		item.setSquadron("155");
+		item.setSquadron(squadron);
 		return item;
 	}
 	public Request createNewRequest() {
