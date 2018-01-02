@@ -7,53 +7,115 @@ import java.io.FileOutputStream;
 import java.io.IOException; 
 import java.io.ObjectInputStream; 
 import java.io.ObjectOutputStream; 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import org.bson.types.ObjectId;
+import org.json.JSONObject;
+
+import com.Haborer.DB.DBHandler;
+import com.Haborer.DB.HaborerDBHandler;
+import com.Haborer.Entities.CountItem;
+import com.Haborer.Entities.EntitiesJsonToObjectsParser;
 import com.Haborer.Entities.Item;
 import com.Haborer.Entities.ItemRequestsFactory;
-import com.Haborer.Entities.Request;  
+import com.Haborer.Entities.MakatItem;
+import com.Haborer.Entities.Request;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
+import com.mongodb.Cursor;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;  
 
 public class SquadronDao { 
-
+	private HaborerDBHandler dbHandler=new HaborerDBHandler();
+	private ObjectMapper mapper=new ObjectMapper();
 	
 	public List<? extends Item> getSquadron(String squadron) {
-		//TODO get all entities from collection called squadron
-		return null;
+		List<Item> items=new ArrayList<>();
+		BasicDBObject query=new BasicDBObject();
+		String collectionCount=dbHandler.getCollName(squadron,CountItem.class.getSimpleName());
+		String collectionMakat=dbHandler.getCollName(squadron,MakatItem.class.getSimpleName());
+		DBCursor itemCountList=dbHandler.getCollection(collectionCount).find();
+		DBCursor itemMakatList=dbHandler.getCollection(collectionMakat).find();
+		while(itemCountList.hasNext() || itemMakatList.hasNext()) {
+			if(itemCountList.hasNext()) {
+				DBObject item=itemCountList.next();
+				JSONObject object= new JSONObject(JSON.serialize(item));
+				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString()));
+
+			}
+			if(itemMakatList.hasNext()) {
+				DBObject item=itemMakatList.next();
+				JSONObject object= new JSONObject(JSON.serialize(item));
+				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString()));
+
+			}
+			
+		}
+		
+		return items;
 	}
-	public List<? extends Item> getSquadronRequestsFrom(String squadronFrom) {
-		// TODO get all requests with fromSquadron=squadronFrom and pass them
-		return null;
+	public List<Request> getSquadronRequestsFrom(String squadronFrom) {
+		return dbHandler.getRequests("fromSquadron",squadronFrom);
+		
 	}
-	public List<? extends Item> getSquadronRequestsTo(String squadronTO) {
-		// TODO get all requests with squadronTO=squadronTO and pass them
-		return null;
+	public List<Request> getSquadronRequestsTo(String squadronTO) {
+		return dbHandler.getRequests("toSquadron",squadronTO);
+
+
 	}
 	public Response addNewRequests(ItemRequestsFactory factory) {
 		ArrayList<Request> requests=factory.manageRequests();
-		//mongo saving the request
-		return null;
+		for(Request req:requests) {
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(req), "Requests");
+		}
+		return Response.status(200).build();
 	}
 	public Response updateRequest(Request request) {
-		//TODO update request status in mongoDb,IF change to taken=>switch collection,same for returned
-		return null;
+		String toUpdate=request.get_id();
+		BasicDBObject query=new BasicDBObject();
+		query.put("_id", toUpdate);
+		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(request),"Requests");
+		return Response.status(200).build();
 	}
 	public <T extends Item> Response deleteItem(T item) {
-		// TODO Find the item in db with squadron property,and delete him from db
-		return null;
+		dbHandler.removeObj(EntitiesJsonToObjectsParser.objectToDBObject(item), dbHandler.getCollName(item.getSquadron(), item.getClass().getSimpleName()));
+		return Response.status(200).build();
 	}
 	public <T extends Item> Response updateItem(T item) {
-		// TODO Find the item in db with squadron property,and update him in(mostly count item) db
-		return null;
+		String toUpdate=item.get_id();
+		BasicDBObject query=new BasicDBObject();
+		query.put("_id", toUpdate);
+		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(item), dbHandler.getCollName(item.getSquadron(), item.getClass().getSimpleName()));
+		return Response.status(200).build();
 	}
 	public <T extends Item> Response addItem(T item) {
-		// TODO Add the item to the collection named item.squadron
-		return null;
+		dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(item), dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
+		return Response.status(200).build();
 	}
+
 	public List<String> getAllSqadronNames() {
-		// TODO return all squadrons names from db
-		return null;
+		List<String> squadronNames=new ArrayList<>();
+		dbHandler.getCollectionsNames().forEach(collection->{
+			String[] parts= collection.split("-");
+			if(parts.length==3 ) {
+				if(!squadronNames.contains("Squadron "+parts[1])) {
+					squadronNames.add("Squadron "+parts[1]);
+				}
+			}
+				
+			});
+		
+		return squadronNames;
 	}    
+	
+
 }

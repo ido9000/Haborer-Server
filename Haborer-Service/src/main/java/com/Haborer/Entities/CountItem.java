@@ -29,5 +29,14 @@ public class CountItem extends Item {
 	public void setItemCount(int itemCount) {
 		this.itemCount = itemCount;
 	}
+
+
+	@Override
+	public String toString() {
+		return "CountItem [itemCount=" + itemCount + ", toString()=" + super.toString() + "]";
+	}
+
+
+
 	
 }

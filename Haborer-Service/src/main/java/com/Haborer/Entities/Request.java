@@ -6,11 +6,11 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.bson.types.ObjectId;
 import org.omg.CORBA.PUBLIC_MEMBER;
 public class Request {
-
+	private String _id=new ObjectId().toString();
 	private RequestStatus status;
-	@XmlElement
 	public String fromSquadron;
 	public String toSquadron;
 	public Date fDate;
@@ -19,6 +19,9 @@ public class Request {
 	public Item item;
 	public String requestRespond;
 	
+	public Request() {
+		
+	}
 	public Request(RequestStatus status, String fromSquadron, String toSquadron, Date fDate, Date tDate,
 			String comments, Item item) {
 		super();
@@ -97,12 +100,22 @@ public class Request {
 		this.item = item;
 	}
 
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
 	@Override
 	public String toString() {
-		return "Request [status=" + status + ", fromSquadron=" + fromSquadron + ", toSquadron=" + toSquadron
-				+ ", fDate=" + fDate + ", tDate=" + tDate + ", comments=" + comments + ", item=" + item
+		return "Request [_id=" + _id + ", status=" + status + ", fromSquadron=" + fromSquadron + ", toSquadron="
+				+ toSquadron + ", fDate=" + fDate + ", tDate=" + tDate + ", comments=" + comments + ", item=" + item
 				+ ", requestRespond=" + requestRespond + "]";
 	}
+
+
 
 	
 }

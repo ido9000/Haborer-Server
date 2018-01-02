@@ -1,9 +1,6 @@
 
 package com.Haborer.Entities;
 
-import java.util.Date;
-
-import javax.xml.bind.annotation.XmlElement;
 
 public class MakatItem extends Item{
 	private String itemMakat;
