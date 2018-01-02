@@ -49,13 +49,13 @@ public class SquadronDao {
 			if(itemCountList.hasNext()) {
 				DBObject item=itemCountList.next();
 				JSONObject object= new JSONObject(JSON.serialize(item));
-				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString()));
+				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString(),false));
 
 			}
 			if(itemMakatList.hasNext()) {
 				DBObject item=itemMakatList.next();
 				JSONObject object= new JSONObject(JSON.serialize(item));
-				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString()));
+				items.add(EntitiesJsonToObjectsParser.parseToItem(object.toString(),false));
 
 			}
 			

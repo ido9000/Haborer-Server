@@ -23,7 +23,7 @@ public final class EntitiesJsonToObjectsParser {
 		}
 	   }
 		   
-		   public static Item  parseToItem(String itemJson) {
+		   public static Item  parseToItem(String itemJson,boolean forAdding) {
 			   JSONObject obj=new JSONObject(itemJson);
 			   if(obj.keySet().contains("itemMakat")) {
 				   MakatItem makatItem;
@@ -34,7 +34,9 @@ public final class EntitiesJsonToObjectsParser {
 
 					return null;
 				}
-					makatItem.setDateAdded(new Date());
+					if(forAdding) {
+						makatItem.setDateAdded(new Date());
+						}
 					return makatItem;
 			   }else {
 				   CountItem countItem;
@@ -44,7 +46,10 @@ public final class EntitiesJsonToObjectsParser {
 					System.out.println(e.getMessage());
 					return null;
 				}
-				   countItem.setDateAdded(new Date());
+				if(forAdding) {
+					   countItem.setDateAdded(new Date());
+
+				}
 				   return countItem;
 			   }
 			   

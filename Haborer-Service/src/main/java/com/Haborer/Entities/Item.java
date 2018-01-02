@@ -80,6 +80,55 @@ public abstract class Item implements Serializable {
 				+ dateAdded + ", squadron=" + squadron + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		result = prime * result + ((dateAdded == null) ? 0 : dateAdded.hashCode());
+		result = prime * result + ((itemCategory == null) ? 0 : itemCategory.hashCode());
+		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+		result = prime * result + ((squadron == null) ? 0 : squadron.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		if (dateAdded == null) {
+			if (other.dateAdded != null)
+				return false;
+		} else if (!dateAdded.equals(other.dateAdded))
+			return false;
+		if (itemCategory == null) {
+			if (other.itemCategory != null)
+				return false;
+		} else if (!itemCategory.equals(other.itemCategory))
+			return false;
+		if (itemName == null) {
+			if (other.itemName != null)
+				return false;
+		} else if (!itemName.equals(other.itemName))
+			return false;
+		if (squadron == null) {
+			if (other.squadron != null)
+				return false;
+		} else if (!squadron.equals(other.squadron))
+			return false;
+		return true;
+	}
+
 
 
 

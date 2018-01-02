@@ -63,7 +63,7 @@ public class UserService {
    @Path("/Squadron/AddItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response addItem(String itemJson) {
-	   return squadronDao.addItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));	   
+	   return squadronDao.addItem(EntitiesJsonToObjectsParser.parseToItem(itemJson,true));	   
    }
    
    
@@ -91,13 +91,13 @@ public class UserService {
    @Path("Squadron/DeleteItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response deleteItem(String itemJson) {
-	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
+	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson,false));
    }
    @POST
    @Path("Squadron/UpdateItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response updateItem(String itemJson) {
-	   return squadronDao.updateItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
+	   return squadronDao.updateItem(EntitiesJsonToObjectsParser.parseToItem(itemJson,true));
    }
 
 }
