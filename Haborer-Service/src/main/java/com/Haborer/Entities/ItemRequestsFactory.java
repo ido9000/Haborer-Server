@@ -7,9 +7,7 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-@XmlRootElement(name = "factory") 
 public class ItemRequestsFactory {
-    @XmlElement
 	public String fromSquadron;
     @Override
 	public String toString() {
@@ -17,15 +15,10 @@ public class ItemRequestsFactory {
 				+ ", tDate=" + tDate + ", items=" + items + ", comments=" + comments + "]";
 	}
 
-	@XmlElement
 	public String toSquadron;
-    @XmlElement
 	public Date fDate;
-    @XmlElement
 	public Date tDate;
-    @XmlElement
 	public ArrayList<? extends Item> items=new ArrayList<>();
-    @XmlElement
 	public String comments;
 	
 	public String getFromSquadron() {

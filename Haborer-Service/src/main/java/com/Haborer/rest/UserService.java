@@ -1,7 +1,10 @@
 package com.Haborer.rest;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -11,48 +14,90 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.Haborer.Entities.CountItem;
+import com.Haborer.Entities.EntitiesJsonToObjectsParser;
 import com.Haborer.Entities.Item;
-import com.Haborer.Entities.ItemRequestsFactory;  
+import com.Haborer.Entities.ItemRequestsFactory;
+import com.Haborer.Entities.MakatItem;
+import com.Haborer.Entities.Request;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javassist.expr.NewArray;  
 
 @Path("/UserService") 
 public class UserService {  
-	SquadronDao SquadronDao = new SquadronDao();  
-   
+	private SquadronDao squadronDao = new SquadronDao();  
+
    @GET
    @Path("/Squadron/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
    public List<? extends Item> getSquadronItems(@PathParam("Squadronid") int squadronId){
-      return SquadronDao.getSquadron(String.valueOf(squadronId));
+      return squadronDao.getSquadron(String.valueOf(squadronId));
    }
    
    @GET
    @Path("/Squadron/Requests/From/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
    public List<? extends Item> getSquadronRequestsFrom(@PathParam("Squadronid") int squadronId){
-      return SquadronDao.getSquadronRequestsFrom(String.valueOf(squadronId));
+      return squadronDao.getSquadronRequestsFrom(String.valueOf(squadronId));
    }
    
    @GET
    @Path("/Squadron/Requests/To/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
    public List<? extends Item> getSquadronRequestsTo(@PathParam("Squadronid") int squadronId){
-      return SquadronDao.getSquadronRequestsTo(String.valueOf(squadronId));
+      return squadronDao.getSquadronRequestsTo(String.valueOf(squadronId));
+   }
+   @GET
+   @Path("/Sqaudron/GetAllSquadrons")
+   @Produces(MediaType.APPLICATION_JSON)
+   public List<String> getAllSquadronsNames(){
+	   return squadronDao.getAllSqadronNames();
    }
    
-   @PUT
+   @POST
    @Path("/Squadron/AddItem")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public<T extends Item> Response addItem(Class<T> item) {
-	   return null;
-	   
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response addItem(String itemJson) {
+	   return squadronDao.addItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));	   
    }
    
+   
+
    @PUT
    @Path("/Squadron/NewRequest")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public<T extends Item> Response addRequests(ItemRequestsFactory factory) {
-	   return SquadronDao.addNewRequests(factory);
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response addRequests(String factoryJson) {
+	   return squadronDao.addNewRequests(EntitiesJsonToObjectsParser.getItemRequstsFactory(factoryJson));
 	   
+   }
+
+
+
+   @POST
+   @Path("/Sqaudron/RequestRespond")
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response updateRequest(String requestJson) {
+	   return squadronDao.updateRequest(EntitiesJsonToObjectsParser.parseToRequest(requestJson));
+	   
+   }
+
+
+@DELETE
+   @Path("Squadron/DeleteItem")
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response deleteItem(String itemJson) {
+	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
+   }
+   @POST
+   @Path("Squadron/UpdateItem")
+   @Consumes(MediaType.TEXT_PLAIN)
+   public Response updateItem(String itemJson) {
+	   return squadronDao.updateItem(EntitiesJsonToObjectsParser.parseToItem(itemJson));
    }
 
 }
