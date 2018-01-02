@@ -1,9 +1,11 @@
-package main.java.com.Haborer.db;
+package com.Haborer.testing;
 import java.util.Map;
 import java.util.Set;
 import org.bson.BSONObject;
 import org.bson.Document;
-import com.Haborer.db.DBHandler;
+
+import com.Haborer.DB.DBHandler;
+import com.Haborer.DB.HaborerDBHandler;
 import com.mongodb.*;
 
 public class dbtest {
@@ -13,7 +15,7 @@ public class dbtest {
         document.put("pop", 34);
         documento.put("pop", 35);
         documento.put("name", "avi");
-        DBHandler handler = new DBHandler();
+        HaborerDBHandler handler = new HaborerDBHandler();
         
         /*Test Insert Object: */ 
         handler.insertObj(document, "Men");

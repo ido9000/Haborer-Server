@@ -6,11 +6,11 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.bson.types.ObjectId;
 import org.omg.CORBA.PUBLIC_MEMBER;
 public class Request {
-
+	private ObjectId itemId=new ObjectId();
 	private RequestStatus status;
-	@XmlElement
 	public String fromSquadron;
 	public String toSquadron;
 	public Date fDate;
@@ -102,6 +102,14 @@ public class Request {
 		return "Request [status=" + status + ", fromSquadron=" + fromSquadron + ", toSquadron=" + toSquadron
 				+ ", fDate=" + fDate + ", tDate=" + tDate + ", comments=" + comments + ", item=" + item
 				+ ", requestRespond=" + requestRespond + "]";
+	}
+
+	public ObjectId getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(ObjectId itemId) {
+		this.itemId = itemId;
 	}
 
 	

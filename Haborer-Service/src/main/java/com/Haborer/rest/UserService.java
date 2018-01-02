@@ -42,14 +42,14 @@ public class UserService {
    @GET
    @Path("/Squadron/Requests/From/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public List<? extends Item> getSquadronRequestsFrom(@PathParam("Squadronid") int squadronId){
+   public List<Request> getSquadronRequestsFrom(@PathParam("Squadronid") int squadronId){
       return squadronDao.getSquadronRequestsFrom(String.valueOf(squadronId));
    }
    
    @GET
    @Path("/Squadron/Requests/To/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public List<? extends Item> getSquadronRequestsTo(@PathParam("Squadronid") int squadronId){
+   public List <Request> getSquadronRequestsTo(@PathParam("Squadronid") int squadronId){
       return squadronDao.getSquadronRequestsTo(String.valueOf(squadronId));
    }
    @GET
@@ -68,7 +68,7 @@ public class UserService {
    
    
 
-   @PUT
+   @POST
    @Path("/Squadron/NewRequest")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response addRequests(String factoryJson) {

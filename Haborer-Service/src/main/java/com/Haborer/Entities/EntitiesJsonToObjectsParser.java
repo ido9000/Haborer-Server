@@ -6,7 +6,10 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 public final class EntitiesJsonToObjectsParser {
 		private static ObjectMapper mapper=new ObjectMapper();
@@ -21,25 +24,30 @@ public final class EntitiesJsonToObjectsParser {
 	   }
 		   
 		   public static Item  parseToItem(String itemJson) {
-			   MakatItem makatItem;
-			   CountItem countItem;
+			   JSONObject obj=new JSONObject(itemJson);
+			   if(obj.keySet().contains("itemMakat")) {
+				   MakatItem makatItem;
+				try {
+					makatItem = mapper.readValue(obj.toString(), MakatItem.class);
+				} catch (JSONException | IOException e) {
+					System.out.println(e.getMessage());
 
-			   try {
-					makatItem = mapper.readValue(new JSONObject(itemJson).toString(), MakatItem.class);
+					return null;
+				}
 					makatItem.setDateAdded(new Date());
 					return makatItem;
-			   } catch (JSONException | IOException err1) {
-				   try {
-					   countItem=mapper.readValue(new JSONObject(itemJson).toString(), CountItem.class);
-					   countItem.setDateAdded(new Date());
-					   return countItem;
-				   }catch (JSONException | IOException err2) {
-					   System.out.println("Wrong structure of fule");
-					   
-				   }
-				   return null;
-				   
+			   }else {
+				   CountItem countItem;
+				try {
+					countItem = mapper.readValue(obj.toString(), CountItem.class);
+				} catch (JSONException | IOException e) {
+					System.out.println(e.getMessage());
+					return null;
 				}
+				   countItem.setDateAdded(new Date());
+				   return countItem;
+			   }
+			   
 			   
 			   
 		}
@@ -51,5 +59,14 @@ public final class EntitiesJsonToObjectsParser {
 				return null;
 			}
 		}
+			public static  DBObject objectToDBObject(Object item) {
+				try {
+					return (DBObject)JSON.parse(mapper.writeValueAsString(item));
+				} catch (JsonProcessingException e) {
+					System.out.println(e.getMessage());
+
+				}
+				return null;
+			}
 
 }
