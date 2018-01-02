@@ -80,9 +80,9 @@ public class SquadronDao {
 		return Response.status(200).build();
 	}
 	public Response updateRequest(Request request) {
-		ObjectId toUpdate=request.getItemId();
+		String toUpdate=request.get_id();
 		BasicDBObject query=new BasicDBObject();
-		query.put("itemId", toUpdate);
+		query.put("_id", toUpdate);
 		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(request),"Requests");
 		return Response.status(200).build();
 	}
@@ -91,9 +91,9 @@ public class SquadronDao {
 		return Response.status(200).build();
 	}
 	public <T extends Item> Response updateItem(T item) {
-		ObjectId toUpdate=item.getItemId();
+		String toUpdate=item.get_id();
 		BasicDBObject query=new BasicDBObject();
-		query.put("itemId", toUpdate);
+		query.put("_id", toUpdate);
 		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(item), dbHandler.getCollName(item.getSquadron(), item.getClass().getSimpleName()));
 		return Response.status(200).build();
 	}
