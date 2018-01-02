@@ -37,6 +37,7 @@ class integrationWithMongoTest {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
+		dbHandler.closeConnection();
 	}
 
 	@BeforeEach
