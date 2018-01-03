@@ -318,18 +318,18 @@ class integrationWithMongoTest {
 
 	}
 	
-	public CountItem createCountItem(String squadron) {
+	public static CountItem createCountItem(String squadron) {
 		CountItem item=new CountItem();
 		item.setSquadron(squadron);
 		item.setItemCount(15);
 		return item;
 	}
-	public MakatItem createMakatItem(String squadron) {
+	public static MakatItem createMakatItem(String squadron) {
 		MakatItem item=new MakatItem();
 		item.setSquadron(squadron);
 		return item;
 	}
-	public Request createNewRequest() {
+	public static Request createNewRequest() {
 		Request request=new Request();
 		request.setStatus(RequestStatus.APPROVED);
 		request.setComments("Testing");
@@ -337,13 +337,13 @@ class integrationWithMongoTest {
 	
 		
 	}
-	public User getUser() {
+	public static User getUser() {
 		User user=new User();
 		user.setUserName("ido");
 		user.setPassword("nissan");
 		return user;
 	}
-	public ItemRequestsFactory createItemRequestsFactory() {
+	public static ItemRequestsFactory createItemRequestsFactory() {
 		ArrayList<Item> squadronItems=new ArrayList<>();
 		for(int i=0;i<10;i++) {
 			squadronItems.add(createCountItem("Test155"));
