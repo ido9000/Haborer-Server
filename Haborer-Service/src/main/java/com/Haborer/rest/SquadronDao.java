@@ -39,7 +39,6 @@ import com.mongodb.util.JSON;
 
 public class SquadronDao { 
 	private HaborerDBHandler dbHandler=new HaborerDBHandler();
-	private ObjectMapper mapper=new ObjectMapper();
 	
 	public List<? extends Item> getSquadron(String squadron) {
 		List<Item> items=new ArrayList<>();

@@ -101,7 +101,7 @@ public class UserService {
 	   
    }
 
-@DELETE
+   @DELETE
    @Path("Squadron/DeleteItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response deleteItem(String itemJson) {

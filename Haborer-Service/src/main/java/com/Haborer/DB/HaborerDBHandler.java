@@ -15,6 +15,9 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.util.JSON;
 
 public class HaborerDBHandler extends DBHandler {
+	public HaborerDBHandler() {
+		super();
+	}
 	public DBCursor getByQuery(BasicDBObject query,String collectionName){
         DBCollection collection = mdb.getCollection(collectionName);
 		return collection.find(query);
