@@ -23,7 +23,7 @@ public class HaborerDBHandler extends DBHandler {
 		List<Request> requests=new ArrayList<>();
 		BasicDBObject query=new BasicDBObject();
 		query.put(squadronField, squadronValue);
-		DBCursor requestList=getByQuery(query,"Requests");
+		DBCursor requestList=getByQuery(query,Utilities.RequestCollectionName);
 		while(requestList.hasNext()) {
 			DBObject item=requestList.next();
 			JSONObject object= new JSONObject(JSON.serialize(item));

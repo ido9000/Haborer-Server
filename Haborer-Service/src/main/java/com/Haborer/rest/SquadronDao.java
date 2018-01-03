@@ -19,12 +19,15 @@ import org.json.JSONObject;
 
 import com.Haborer.DB.DBHandler;
 import com.Haborer.DB.HaborerDBHandler;
+import com.Haborer.DB.Utilities;
 import com.Haborer.Entities.CountItem;
 import com.Haborer.Entities.EntitiesJsonToObjectsParser;
 import com.Haborer.Entities.Item;
 import com.Haborer.Entities.ItemRequestsFactory;
 import com.Haborer.Entities.MakatItem;
 import com.Haborer.Entities.Request;
+import com.Haborer.Entities.RequestStatus;
+import com.Haborer.Entities.User;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +78,7 @@ public class SquadronDao {
 	public Response addNewRequests(ItemRequestsFactory factory) {
 		ArrayList<Request> requests=factory.manageRequests();
 		for(Request req:requests) {
-			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(req), "Requests");
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(req), Utilities.RequestCollectionName);
 		}
 		return Response.status(200).build();
 	}
@@ -83,7 +86,52 @@ public class SquadronDao {
 		String toUpdate=request.get_id();
 		BasicDBObject query=new BasicDBObject();
 		query.put("_id", toUpdate);
-		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(request),"Requests");
+		dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(request),Utilities.RequestCollectionName);
+		Item item=request.getItem();
+		if(request.getStatus().equals(RequestStatus.TAKEN)) {
+			if(request.getItem().getClass().getSimpleName().equals(MakatItem.class.getSimpleName())) {
+				deleteItem(item);
+				item.setSquadron(request.getToSquadron());
+				addItem(item);
+			}else {
+				item.setSquadron(request.getToSquadron());
+				addItem(item);
+				item.setSquadron(request.getFromSquadron());
+				query.put("_id", item.get_id());
+				DBCursor itemList=dbHandler.getByQuery(query,dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
+				while(itemList.hasNext()) {
+					DBObject itemObject=itemList.next();
+					JSONObject object= new JSONObject(JSON.serialize(itemObject));
+					Item OriginalItem=EntitiesJsonToObjectsParser.parseToItem(object.toString(),false);
+					((CountItem)OriginalItem).setItemCount(((CountItem)OriginalItem).getItemCount()-((CountItem)item).getItemCount());
+					dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(OriginalItem),dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
+
+				}				
+				
+			}
+		}
+		else if(request.getStatus().equals(RequestStatus.RETURNED)) {
+			if(request.getItem().getClass().getSimpleName().equals(MakatItem.class.getSimpleName())) {
+				deleteItem(item);
+				item.setSquadron(request.getFromSquadron());
+				addItem(item);
+			}else {
+				item.setSquadron(request.getToSquadron());
+				deleteItem(item);
+				item.setSquadron(request.getFromSquadron());
+				query.put("_id", item.get_id());
+				DBCursor itemList=dbHandler.getByQuery(query,dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
+				while(itemList.hasNext()) {
+					DBObject itemObject=itemList.next();
+					JSONObject object= new JSONObject(JSON.serialize(itemObject));
+					Item OriginalItem=EntitiesJsonToObjectsParser.parseToItem(object.toString(),false);
+					((CountItem)OriginalItem).setItemCount(((CountItem)OriginalItem).getItemCount()+((CountItem)item).getItemCount());
+					dbHandler.updateObj(query, EntitiesJsonToObjectsParser.objectToDBObject(OriginalItem),dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
+
+				};
+
+			}
+		}
 		return Response.status(200).build();
 	}
 	public <T extends Item> Response deleteItem(T item) {
@@ -115,6 +163,22 @@ public class SquadronDao {
 			});
 		
 		return squadronNames;
+	}
+	public User login(String userName, String password) {
+		User user=new User();
+		BasicDBObject query=new BasicDBObject();
+		query.put("userName", userName);
+		query.put("password", password);
+		DBCursor users=dbHandler.getByQuery(query, Utilities.UsersCollectionName);
+		if(users.hasNext()) {
+			
+			DBObject userDBObject=users.next();
+			JSONObject object= new JSONObject(JSON.serialize(userDBObject));
+			user=(User) EntitiesJsonToObjectsParser.parseToUser(object.toString());
+			
+		}
+
+		return user;
 	}    
 	
 

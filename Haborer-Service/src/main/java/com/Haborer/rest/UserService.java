@@ -10,10 +10,13 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces; 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +26,7 @@ import com.Haborer.Entities.Item;
 import com.Haborer.Entities.ItemRequestsFactory;
 import com.Haborer.Entities.MakatItem;
 import com.Haborer.Entities.Request;
+import com.Haborer.Entities.User;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -85,7 +89,17 @@ public class UserService {
 	   return squadronDao.updateRequest(EntitiesJsonToObjectsParser.parseToRequest(requestJson));
 	   
    }
+   
+   @POST
+   @Path("/Squadron/Login")
+   @Consumes(MediaType.TEXT_PLAIN)
+   public User login(@Context HttpHeaders headers) {
+	   String userName=headers.getRequestHeader("userName").get(0);
+	   String password=headers.getRequestHeader("password").get(0);
 
+	   return squadronDao.login(userName,password);
+	   
+   }
 
 @DELETE
    @Path("Squadron/DeleteItem")

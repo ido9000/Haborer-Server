@@ -74,4 +74,13 @@ public final class EntitiesJsonToObjectsParser {
 				return null;
 			}
 
+			public static User parseToUser(String jsonUser) {
+				   try {
+						return mapper.readValue(new JSONObject(jsonUser).toString(), User.class);
+					} catch (JSONException | IOException e) {
+						System.out.println(e.getMessage());
+						return null;
+					}
+			}
+
 }
