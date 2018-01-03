@@ -18,7 +18,7 @@ public class ItemRequestsFactory {
 	public String toSquadron;
 	public Date fDate;
 	public Date tDate;
-	public ArrayList<? extends Item> items=new ArrayList<>();
+	public ArrayList<Item> items=new ArrayList<>();
 	public String comments;
 	
 	public String getFromSquadron() {
@@ -45,10 +45,10 @@ public class ItemRequestsFactory {
 	public void settDate(Date tDate) {
 		this.tDate = tDate;
 	}
-	public ArrayList<? extends Item> getItems() {
+	public ArrayList<Item> getItems() {
 		return items;
 	}
-	public void setItems(ArrayList<? extends Item> items) {
+	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}
 	public String getComments() {
@@ -68,12 +68,67 @@ public class ItemRequestsFactory {
 		this.comments = comments;
 	}
 	
+	public ItemRequestsFactory() {
+	}
 	public ArrayList<Request> manageRequests(){
 		ArrayList<Request> requests=new ArrayList<>();
 		items.forEach(item->{
 			requests.add(new Request(RequestStatus.PENDING, fromSquadron, toSquadron, fDate, tDate, comments,item));
 		});
 		return requests;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result + ((fDate == null) ? 0 : fDate.hashCode());
+		result = prime * result + ((fromSquadron == null) ? 0 : fromSquadron.hashCode());
+		result = prime * result + ((items == null) ? 0 : items.hashCode());
+		result = prime * result + ((tDate == null) ? 0 : tDate.hashCode());
+		result = prime * result + ((toSquadron == null) ? 0 : toSquadron.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemRequestsFactory other = (ItemRequestsFactory) obj;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
+			return false;
+		if (fDate == null) {
+			if (other.fDate != null)
+				return false;
+		} else if (!fDate.equals(other.fDate))
+			return false;
+		if (fromSquadron == null) {
+			if (other.fromSquadron != null)
+				return false;
+		} else if (!fromSquadron.equals(other.fromSquadron))
+			return false;
+		if (items == null) {
+			if (other.items != null)
+				return false;
+		} else if (!items.equals(other.items))
+			return false;
+		if (tDate == null) {
+			if (other.tDate != null)
+				return false;
+		} else if (!tDate.equals(other.tDate))
+			return false;
+		if (toSquadron == null) {
+			if (other.toSquadron != null)
+				return false;
+		} else if (!toSquadron.equals(other.toSquadron))
+			return false;
+		return true;
 	}
 	
 	

@@ -114,6 +114,74 @@ public class Request {
 				+ toSquadron + ", fDate=" + fDate + ", tDate=" + tDate + ", comments=" + comments + ", item=" + item
 				+ ", requestRespond=" + requestRespond + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result + ((fDate == null) ? 0 : fDate.hashCode());
+		result = prime * result + ((fromSquadron == null) ? 0 : fromSquadron.hashCode());
+		result = prime * result + ((item == null) ? 0 : item.hashCode());
+		result = prime * result + ((requestRespond == null) ? 0 : requestRespond.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((tDate == null) ? 0 : tDate.hashCode());
+		result = prime * result + ((toSquadron == null) ? 0 : toSquadron.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Request other = (Request) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
+			return false;
+		if (fDate == null) {
+			if (other.fDate != null)
+				return false;
+		} else if (!fDate.equals(other.fDate))
+			return false;
+		if (fromSquadron == null) {
+			if (other.fromSquadron != null)
+				return false;
+		} else if (!fromSquadron.equals(other.fromSquadron))
+			return false;
+		if (item == null) {
+			if (other.item != null)
+				return false;
+		} else if (!item.equals(other.item))
+			return false;
+		if (requestRespond == null) {
+			if (other.requestRespond != null)
+				return false;
+		} else if (!requestRespond.equals(other.requestRespond))
+			return false;
+		if (status != other.status)
+			return false;
+		if (tDate == null) {
+			if (other.tDate != null)
+				return false;
+		} else if (!tDate.equals(other.tDate))
+			return false;
+		if (toSquadron == null) {
+			if (other.toSquadron != null)
+				return false;
+		} else if (!toSquadron.equals(other.toSquadron))
+			return false;
+		return true;
+	}
 
 
 

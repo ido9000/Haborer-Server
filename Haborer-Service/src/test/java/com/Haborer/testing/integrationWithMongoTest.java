@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.xml.crypto.Data;
 
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
@@ -21,6 +24,7 @@ import com.Haborer.DB.HaborerDBHandler;
 import com.Haborer.Entities.CountItem;
 import com.Haborer.Entities.EntitiesJsonToObjectsParser;
 import com.Haborer.Entities.Item;
+import com.Haborer.Entities.ItemRequestsFactory;
 import com.Haborer.Entities.MakatItem;
 import com.Haborer.Entities.Request;
 import com.Haborer.Entities.RequestStatus;
@@ -182,6 +186,16 @@ class integrationWithMongoTest {
 
 
 	}
+	@Test
+	public void testAddNewRequests() {
+		assertEquals(0, dbHandler.getCollection("Requests").count());
+		squaDao.addNewRequests(createItemRequestsFactory());
+		assertEquals(20, dbHandler.getCollection("Requests").count());
+		assertEquals(20, squaDao.getSquadronRequestsTo("156").size());
+		assertEquals(20, squaDao.getSquadronRequestsFrom("155").size());
+
+
+	}
 	
 	@Test
 	public void testGetSquadronRequestTo() {
@@ -225,5 +239,32 @@ class integrationWithMongoTest {
 	
 		
 	}
+	public ItemRequestsFactory createItemRequestsFactory() {
+		ArrayList<Item> squadronItems=new ArrayList<>();
+		for(int i=0;i<10;i++) {
+			squadronItems.add(createCountItem("155"));
+			squadronItems.add(createMakatItem("155"));
+		}
+
+		ItemRequestsFactory factory=new ItemRequestsFactory();
+		factory.setFromSquadron("155");
+		factory.setToSquadron("156");
+		factory.setfDate(new Date());
+		factory.settDate(new Date());
+		factory.setItems(squadronItems);
+		factory.setComments("Fast as possible!");
+		
+		
+		
+		
+		
+		
+		
+		
+		return factory;
+		
+	}
+
+	
 
 }
