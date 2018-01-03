@@ -1,6 +1,10 @@
 
 package com.Haborer.Entities;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MakatItem extends Item{
 	private String itemMakat;
@@ -10,6 +14,11 @@ public class MakatItem extends Item{
 	
 	public MakatItem( String itemName, String itemCategory,String squadron,String itemMakat) {
 		super(itemName, itemCategory,squadron);
+		this.itemMakat=itemMakat;
+	}
+	@JsonCreator
+	public MakatItem( @JsonProperty("itemName") String itemName,@JsonProperty("itemCategory") String itemCategory,@JsonProperty("squadron") String squadron,@JsonProperty("itemMakat") String itemMakat,@JsonProperty("dateAdded")Date dateAdded) {
+		super(itemName, itemCategory,squadron,dateAdded);
 		this.itemMakat=itemMakat;
 	}
 

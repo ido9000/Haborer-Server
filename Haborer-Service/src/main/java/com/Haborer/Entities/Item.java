@@ -11,7 +11,16 @@ import org.bson.types.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonIgnoreProperties(ignoreUnknown=true)
+@JsonTypeInfo(use=Id.CLASS,include=JsonTypeInfo.As.PROPERTY,property="type")
+@JsonSubTypes({
+	@Type(value=CountItem.class),
+	@Type(value=MakatItem.class)
+})
 public abstract class Item implements Serializable {
    private static final long serialVersionUID = 1L;
    private String _id=new ObjectId().toString();
@@ -32,6 +41,13 @@ public abstract class Item implements Serializable {
 		this.squadron=squadron;
 	}
 
+	public Item(String itemName, String itemCategory,String squadron,Date dateAdded) {
+		super();
+		this.itemName = itemName;
+		this.itemCategory = itemCategory;
+		this.dateAdded =dateAdded;
+		this.squadron=squadron;
+	}
 	public String getSquadron() {
 		return squadron;
 	}

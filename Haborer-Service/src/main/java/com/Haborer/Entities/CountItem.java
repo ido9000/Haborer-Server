@@ -4,6 +4,10 @@ package com.Haborer.Entities;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.crypto.Data;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CountItem extends Item {
 	/**
@@ -21,7 +25,11 @@ public class CountItem extends Item {
 		super( itemName, itemCategory,squadron);
 		this.itemCount=itemCount;
 	}
-
+	@JsonCreator
+	public CountItem(@JsonProperty("itemName") String itemName,@JsonProperty("itemCategory") String itemCategory,@JsonProperty("squadron") String squadron,@JsonProperty("itemCount") int itemCount,@JsonProperty("dateAdded")Date dateAdded) {
+		super( itemName, itemCategory,squadron,dateAdded);
+		this.itemCount=itemCount;
+	}
 
 	public int getItemCount() {
 		return itemCount;
