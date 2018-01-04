@@ -60,6 +60,7 @@ public class UserService {
    @Path("/Sqaudron/GetAllSquadrons")
    @Produces(MediaType.APPLICATION_JSON)
    public List<String> getAllSquadronsNames(){
+	   System.out.println("Receving request");
 	   return squadronDao.getAllSqadronNames();
    }
    
@@ -101,10 +102,11 @@ public class UserService {
 	   
    }
 
-   @DELETE
+   @POST
    @Path("Squadron/DeleteItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response deleteItem(String itemJson) {
+	   
 	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson,false));
    }
    @POST
