@@ -106,6 +106,7 @@ public class UserService {
    @Path("Squadron/DeleteItem")
    @Consumes(MediaType.TEXT_PLAIN)
    public Response deleteItem(String itemJson) {
+	   
 	   return squadronDao.deleteItem(EntitiesJsonToObjectsParser.parseToItem(itemJson,false));
    }
    @POST
