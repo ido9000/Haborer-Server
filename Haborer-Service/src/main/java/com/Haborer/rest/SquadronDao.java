@@ -164,7 +164,7 @@ public class SquadronDao {
 		return squadronNames;
 	}
 	public User login(String userName, String password) {
-		User user=new User();
+		User user=null;
 		BasicDBObject query=new BasicDBObject();
 		query.put("userName", userName);
 		query.put("password", password);
