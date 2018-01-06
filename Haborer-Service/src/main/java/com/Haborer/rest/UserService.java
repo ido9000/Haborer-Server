@@ -94,11 +94,12 @@ public class UserService {
    @POST
    @Path("/Squadron/Login")
    @Consumes(MediaType.TEXT_PLAIN)
-   public User login(@Context HttpHeaders headers) {
-	   String userName=headers.getRequestHeader("userName").get(0);
-	   String password=headers.getRequestHeader("password").get(0);
-
-	   return squadronDao.login(userName,password);
+   public User login(String loginDetails) {
+	   JSONObject details=new JSONObject(loginDetails);
+	   String userName=details.getString("userName");
+	   String password=details.getString("password");
+	   User user=squadronDao.login(userName,password);
+	   return user;
 	   
    }
 
