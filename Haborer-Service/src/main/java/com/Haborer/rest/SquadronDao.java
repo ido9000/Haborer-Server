@@ -110,9 +110,13 @@ public class SquadronDao {
 			}
 		}
 		else if(request.getStatus().equals(RequestStatus.RETURNED)) {
+			System.out.println("arrived");
 			if(request.getItem().getClass().getSimpleName().equals(MakatItem.class.getSimpleName())) {
+				item.setSquadron(request.getToSquadron());
+				System.out.println("arrived"+request.getToSquadron());
 				deleteItem(item);
 				item.setSquadron(request.getFromSquadron());
+				System.out.println("arrived"+request.getFromSquadron());
 				addItem(item);
 			}else {
 				item.setSquadron(request.getToSquadron());
