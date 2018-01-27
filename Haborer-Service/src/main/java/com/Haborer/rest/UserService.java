@@ -16,7 +16,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,28 +38,27 @@ public class UserService {
    @GET
    @Path("/Squadron/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public List<? extends Item> getSquadronItems(@PathParam("Squadronid") int squadronId){
+   public List<? extends Item> getSquadronItems(@PathParam("Squadronid") String squadronId){
       return squadronDao.getSquadron(String.valueOf(squadronId));
    }
    
    @GET
    @Path("/Squadron/Requests/From/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public List<Request> getSquadronRequestsFrom(@PathParam("Squadronid") int squadronId){
+   public List<Request> getSquadronRequestsFrom(@PathParam("Squadronid") String squadronId){
       return squadronDao.getSquadronRequestsFrom(String.valueOf(squadronId));
    }
    
    @GET
    @Path("/Squadron/Requests/To/{Squadronid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public List <Request> getSquadronRequestsTo(@PathParam("Squadronid") int squadronId){
+   public List <Request> getSquadronRequestsTo(@PathParam("Squadronid") String squadronId){
       return squadronDao.getSquadronRequestsTo(String.valueOf(squadronId));
    }
    @GET
    @Path("/Sqaudron/GetAllSquadrons")
    @Produces(MediaType.APPLICATION_JSON)
    public List<String> getAllSquadronsNames(){
-	   System.out.println("Receving request");
 	   return squadronDao.getAllSqadronNames();
    }
    

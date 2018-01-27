@@ -11,29 +11,30 @@ import com.Haborer.Entities.Item;
 import com.Haborer.Entities.ItemRequestsFactory;
 import com.Haborer.Entities.MakatItem;
 import com.Haborer.Entities.Request;
+import com.Haborer.Entities.User;
 import com.Haborer.rest.SquadronDao;
 
 public class insertForTesting {
 
 	public static void main(String[] args) {
-	   HaborerDBHandler dbHandler=new HaborerDBHandler();		
+		
+	   HaborerDBHandler dbHandler=new HaborerDBHandler();	
+	   
 	   SquadronDao squadronDao=new SquadronDao();
 		ArrayList<Item> squadronItems=new ArrayList<>();
 		for(int i=0;i<10;i++) {
-			squadronItems.add(integrationWithMongoTest.createCountItem("156"));
-			squadronItems.add(integrationWithMongoTest.createMakatItem("156"));
+			//squadronItems.add(integrationWithMongoTest.createCountItem("דרג:ד"));
+			squadronItems.add(integrationWithMongoTest.createMakatItem("דרג:ד"));
 		}
 		for(Item item:squadronItems) {
-			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(item),  dbHandler.getCollName("156", CountItem.class.getSimpleName()));
+			//dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(item),  dbHandler.getCollName("דרג:ד", CountItem.class.getSimpleName()));
+			dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(item),  dbHandler.getCollName("דרג:ד", MakatItem.class.getSimpleName()));
+
 		}
-		ItemRequestsFactory factory=new ItemRequestsFactory();
-		factory.setFromSquadron("156");
-		factory.setToSquadron("155");
-		factory.setfDate(new Date());
-		factory.settDate(new Date());
-		factory.setItems(squadronItems);
-		factory.setComments("Fast as possible!");
-		squadronDao.addNewRequests(factory);;
+	/*
+	   User user=new User("fName","lName","דרג-ד","userD","passwordD");
+		dbHandler.insertObj(EntitiesJsonToObjectsParser.objectToDBObject(user),Utilities.UsersCollectionName);
+*/
 	}
 
 }

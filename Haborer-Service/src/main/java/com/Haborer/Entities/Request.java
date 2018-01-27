@@ -8,12 +8,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.bson.types.ObjectId;
 import org.omg.CORBA.PUBLIC_MEMBER;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 public class Request {
 	private String _id=new ObjectId().toString();
 	private RequestStatus status;
 	public String fromSquadron;
 	public String toSquadron;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	public Date fDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	public Date tDate;
 	public String comments;
 	public Item item;

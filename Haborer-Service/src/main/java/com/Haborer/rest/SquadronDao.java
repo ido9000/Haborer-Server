@@ -91,9 +91,11 @@ public class SquadronDao {
 			if(request.getItem().getClass().getSimpleName().equals(MakatItem.class.getSimpleName())) {
 				deleteItem(item);
 				item.setSquadron(request.getToSquadron());
+				item.setTaken(true);
 				addItem(item);
 			}else {
 				item.setSquadron(request.getToSquadron());
+				item.setTaken(true);
 				addItem(item);
 				item.setSquadron(request.getFromSquadron());
 				query.put("_id", item.get_id());
@@ -110,17 +112,18 @@ public class SquadronDao {
 			}
 		}
 		else if(request.getStatus().equals(RequestStatus.RETURNED)) {
-			System.out.println("arrived");
 			if(request.getItem().getClass().getSimpleName().equals(MakatItem.class.getSimpleName())) {
+				item.setTaken(true);
 				item.setSquadron(request.getToSquadron());
-				System.out.println("arrived"+request.getToSquadron());
 				deleteItem(item);
+				item.setTaken(false);
 				item.setSquadron(request.getFromSquadron());
-				System.out.println("arrived"+request.getFromSquadron());
 				addItem(item);
 			}else {
+				item.setTaken(true);
 				item.setSquadron(request.getToSquadron());
 				deleteItem(item);
+				item.setTaken(false);
 				item.setSquadron(request.getFromSquadron());
 				query.put("_id", item.get_id());
 				DBCursor itemList=dbHandler.getByQuery(query,dbHandler.getCollName(item.getSquadron(),item.getClass().getSimpleName()));
@@ -158,8 +161,8 @@ public class SquadronDao {
 		dbHandler.getCollectionsNames().forEach(collection->{
 			String[] parts= collection.split("-");
 			if(parts.length==3 ) {
-				if(!squadronNames.contains("Squadron "+parts[1])) {
-					squadronNames.add("Squadron "+parts[1]);
+				if(!squadronNames.contains(parts[1])) {
+					squadronNames.add(parts[1]);
 				}
 			}
 				

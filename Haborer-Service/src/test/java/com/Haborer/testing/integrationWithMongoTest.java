@@ -107,9 +107,9 @@ class integrationWithMongoTest {
 	void testGetAllSquadronsNames() {
 		List<String> squadNames=squaDao.getAllSqadronNames();
 		assertEquals(3, squadNames.size());
-		assertTrue(squadNames.contains("Squadron Test155"));
-		assertTrue(squadNames.contains("Squadron Test156"));
-		assertTrue(squadNames.contains("Squadron Test157"));
+		assertTrue(squadNames.contains("Test155"));
+		assertTrue(squadNames.contains("Test156"));
+		assertTrue(squadNames.contains("Test157"));
 
 	}
 	@Test

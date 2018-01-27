@@ -7,6 +7,8 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 public class ItemRequestsFactory {
 	public String fromSquadron;
     @Override
@@ -16,7 +18,9 @@ public class ItemRequestsFactory {
 	}
 
 	public String toSquadron;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	public Date fDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	public Date tDate;
 	public ArrayList<Item> items=new ArrayList<>();
 	public String comments;
